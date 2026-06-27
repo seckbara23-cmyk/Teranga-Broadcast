@@ -1,27 +1,26 @@
 {
-  "name": "@teranga/agent",
+  "name": "@teranga/device-adapters",
   "version": "0.0.0",
   "private": true,
-  "description": "Teranga Broadcast Agent — local service bridging Teranga Broadcast with broadcast hardware (OBS read-only this phase).",
+  "description": "Device adapters for the Teranga Broadcast Agent. Read-only OBS adapter implemented; vMix/ATEM/NDI/FFmpeg/HyperDeck/EVS are interface stubs.",
   "type": "module",
   "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
-    "lint": "echo \"(placeholder) lint @teranga/agent\"",
+    "lint": "echo \"(placeholder) lint @teranga/device-adapters\"",
     "clean": "rm -rf dist .turbo *.tsbuildinfo"
   },
   "dependencies": {
     "@teranga/agent-core": "workspace:*",
-    "@teranga/device-adapters": "workspace:*",
-    "@supabase/supabase-js": "^2.45.0",
     "obs-websocket-js": "^5.0.6"
   },
   "devDependencies": {
     "@types/node": "^20.16.0",
-    "tsx": "^4.19.0",
     "typescript": "^5.7.0"
   }
 }

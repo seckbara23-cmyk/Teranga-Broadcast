@@ -1,43 +1,38 @@
 # @teranga/agent
 
-The **Teranga Agent** — a local edge service that runs on the production machine
-next to OBS. It owns the **media plane**: everything a browser sandbox cannot do
-reliably.
+The **Teranga Broadcast Agent** — a long-running local service on the production
+workstation that bridges Teranga Broadcast with broadcast hardware.
 
-> Status: **placeholder structure** only. The entry point logs and exits — no
-> OBS, replay, or FFmpeg logic is implemented yet.
+> Phase 5 foundation: **hardware discovery + read-only OBS + health + heartbeat**.
+> No device control, no media, no FFmpeg.
 
-## Responsibilities (planned)
+## What it does
 
-- Hold a persistent, reconnecting **OBS WebSocket v5** session (via `@teranga/obs`).
-- Manage the **segmented replay ring buffer** on local disk (cut planning from
-  `@teranga/replay`; FFmpeg execution here).
-- Run **export jobs** (FFmpeg trim + branding burn-in) and register **assets**.
-- Subscribe to **Supabase Realtime** for commands; report status/health back.
-- Monitor **disk, CPU, and dropped frames**; raise loud alarms.
+1. Ensures the local media folder layout (`buffer/`, `clips/`, `exports/`,
+   `logs/`) — folders only.
+2. Registers device adapters ([`@teranga/device-adapters`](../../packages/device-adapters)) —
+   **OBS read-only**; vMix/ATEM/NDI/FFmpeg/HyperDeck/EVS are stubs.
+3. Runs the `ConnectionManager` (heartbeat + backoff reconnect) and polls device
+   status every 5s.
+4. Gathers system health (CPU, memory, disk, network, realtime latency).
+5. Reports a heartbeat to the platform (Kernel AgentRegistry) via Supabase using
+   the service role. Operators read it live (Device Dashboard / System Health).
 
-## Planned `src/` layout
+## Run
 
-```
-src/
-├── obs/       OBS session + scene/source control
-├── replay/    ring-buffer recorder, segment index, clip cut (uses @teranga/replay)
-├── export/    FFmpeg job runner, branding burn-in
-├── sync/      Supabase Realtime subscribe + status reporting
-├── assets/    file registry → Storage upload
-├── health/    disk / CPU / dropped-frame monitoring
-└── index.ts   service bootstrap
+```bash
+cp .env.example .env   # fill in Supabase + OBS + org id
+pnpm --filter @teranga/agent start     # tsx src/index.ts
+# or: pnpm --filter @teranga/agent dev # watch mode
 ```
 
-## Configuration
+The Agent uses a stable `AGENT_KEY` (defaults to hostname) so it upserts a single
+`broadcast_agents` row per workstation. On the web side, the agent and OBS appear
+automatically and the device dashboard updates live.
 
-Copy `.env.example` → `.env`. The OBS password and Supabase service key live
-**only** on this machine — never committed or synced. Point `SUPABASE_URL` at a
-self-hosted instance for on-prem deployments.
+## Boundaries
 
-## Why a separate service
-
-The browser cannot hold a persistent OBS connection, manage large local recording
-files, or invoke FFmpeg. The Agent does — and it keeps recording and replaying
-**even if the cloud is unreachable**, which matters for RTS Senegal connectivity.
-See [docs/03-system-architecture.md](../../docs/03-system-architecture.md).
+The Agent **owns hardware**; the web app **owns operators**. It writes only the
+Kernel AgentRegistry tables (`broadcast_agents`, `agent_devices`) and never
+touches Production, Replay, or Graphics tables. See
+[ENGINE_SPECIFICATIONS](../../docs/ENGINE_SPECIFICATIONS.md).

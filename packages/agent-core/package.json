@@ -1,0 +1,22 @@
+{
+  "name": "@teranga/agent-core",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Teranga Broadcast Agent core — wire protocol, device registry, connection manager, and local media storage (metadata only).",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"(placeholder) lint @teranga/agent-core\"",
+    "clean": "rm -rf dist .turbo *.tsbuildinfo"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "typescript": "^5.7.0"
+  }
+}

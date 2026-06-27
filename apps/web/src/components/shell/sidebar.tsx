@@ -13,6 +13,7 @@ type Item = {
 
 const PRIMARY: Item[] = [
   { href: "/matches", label: "Centre des matchs", kbd: "g m" },
+  { href: "/health", label: "Santé système", kbd: "g s" },
 ];
 
 // Future engines plug in here. Shown (disabled) so the operating environment

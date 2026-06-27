@@ -1,9 +1,10 @@
-import { getMatch } from "@/features/matches/queries";
+import { resolveTenant } from "@/features/auth/tenant";
+import { getAgents, getDevices } from "@/features/devices/queries";
 import { MatchClock } from "@/components/production/match-clock";
 import { ClockControls } from "@/components/production/clock-controls";
 import { QuickEventPanel } from "@/components/production/quick-event-panel";
 import { TransportControls } from "@/components/production/transport-controls";
-import { StatusGrid } from "@/components/production/status-grid";
+import { DeviceDashboard } from "@/components/devices/device-dashboard";
 
 export const dynamic = "force-dynamic";
 
@@ -20,8 +21,12 @@ export default async function ProductionConsolePage({
 }: {
   params: Promise<{ matchId: string }>;
 }) {
-  const { matchId } = await params;
-  const match = await getMatch(matchId);
+  await params; // params not needed here; devices are org-scoped
+  const tenant = await resolveTenant();
+  const orgId = tenant.currentOrg?.id ?? "";
+  const [agents, devices] = orgId
+    ? await Promise.all([getAgents(orgId), getDevices(orgId)])
+    : [[], []];
 
   return (
     <div className="console">
@@ -58,11 +63,11 @@ export default async function ProductionConsolePage({
         <div className="panel__header">
           <span className="panel__title">État de production</span>
           <span className="dim" style={{ fontSize: "0.75rem" }}>
-            En attente de l&apos;agent local
+            Matériel en direct
           </span>
         </div>
         <div className="panel__body">
-          <StatusGrid fps={match?.fps} />
+          <DeviceDashboard orgId={orgId} initialAgents={agents} initialDevices={devices} />
         </div>
       </section>
     </div>
