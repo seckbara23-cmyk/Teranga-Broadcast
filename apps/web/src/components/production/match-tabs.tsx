@@ -11,8 +11,9 @@ export function MatchTabs({ matchId }: { matchId: string }) {
     { href: `${base}/timeline`, label: "Chronologie", exact: false },
     { href: `${base}/replay`, label: "Replay", exact: false },
     { href: `${base}/graphics`, label: "Graphismes", exact: false },
+    { href: `${base}/tactics`, label: "Tactique", exact: false },
   ];
-  const disabled = ["Tactique"];
+  const disabled: string[] = [];
 
   return (
     <div className="tabs">
