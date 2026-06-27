@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useProduction } from "@/components/production/production-provider";
 import { eventClockLabel } from "@/features/production/clock";
-import { createMark } from "@/features/replay/actions";
+import { extractClip } from "@/features/replay/clip-actions";
 
 function isTyping(t: EventTarget | null) {
   const el = t as HTMLElement | null;
@@ -14,7 +14,7 @@ function isTyping(t: EventTarget | null) {
 
 /**
  * Match-wide replay shortcuts (active on every tab of a match):
- *   M  create a mark stamped with the live Production clock
+ *   M  extract a default clip (program, 15s) stamped with the live match clock
  *   R  open the Replay workspace
  * Mounted inside ProductionProvider so the clock is consumed from context.
  */
@@ -28,9 +28,10 @@ export function ReplayShortcuts() {
       const k = e.key.toLowerCase();
       if (k === "m") {
         const label = eventClockLabel(displayMs, clock.periodRegulationMin);
-        void createMark({
+        void extractClip({
           matchId,
-          type: "custom",
+          cameraId: "program",
+          durationS: 15,
           matchClockMs: displayMs,
           clockLabel: label,
         });

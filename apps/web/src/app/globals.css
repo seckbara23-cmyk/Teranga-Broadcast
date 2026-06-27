@@ -1004,6 +1004,127 @@ kbd,
 }
 
 /* ==========================================================================
+   INSTANT REPLAY (Phase 6) — clips, preview, queue
+   ========================================================================== */
+.chip {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.chip:hover {
+  border-color: var(--fg-dim);
+  color: var(--fg);
+}
+.chip--on {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+
+.speed {
+  padding: 0.3rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+  font-family: var(--mono);
+  cursor: pointer;
+}
+.speed--on {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+.speed:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.iconbtn--on {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Clip preview */
+.clip-preview {
+  display: grid;
+  gap: 0.7rem;
+}
+.clip-preview__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #04060a;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.clip-preview__stage video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+.clip-preview__placeholder {
+  text-align: center;
+  padding: 1.5rem;
+}
+.clip-preview__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* Clip list (shared look with archive list) */
+.clip-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.clip-row {
+  display: grid;
+  grid-template-columns: auto 3.2rem 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.3rem;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.clip-row:hover {
+  background: var(--bg-elevated);
+}
+.clip-row--sel {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.clip-row__time {
+  color: var(--fg-dim);
+  text-align: right;
+}
+.clip-row__name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.clip-row__actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* ==========================================================================
    GRAPHICS ENGINE (Phase 4) — broadcast overlay + control panel
    ========================================================================== */
 

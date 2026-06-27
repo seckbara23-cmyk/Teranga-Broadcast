@@ -6,7 +6,7 @@ import {
   type AgentHeartbeat,
   type AgentStatus,
 } from "@teranga/agent-core";
-import { createAdapter } from "@teranga/device-adapters";
+import { OBSAdapter } from "@teranga/device-adapters";
 import { loadConfig, AGENT_VERSION } from "./config.js";
 import { gatherHealth, PLATFORM } from "./health.js";
 import { SupabaseReporter } from "./reporter.js";
@@ -28,9 +28,8 @@ async function main(): Promise<void> {
 
   // 2) Device registry + manager. Only OBS is functional; others are stubs.
   const registry = new DeviceRegistry();
-  registry.register(
-    createAdapter("obs", { obs: { url: cfg.obsUrl, password: cfg.obsPassword } }),
-  );
+  const obs = new OBSAdapter({ url: cfg.obsUrl, password: cfg.obsPassword });
+  registry.register(obs);
   const manager = new ConnectionManager(registry);
 
   // 3) Platform reporter (Supabase / Kernel AgentRegistry).
@@ -66,16 +65,42 @@ async function main(): Promise<void> {
     );
   }
 
-  // 4) Heartbeat loop.
+  // 4) Replay extraction pipeline. When OBS is connected, keep the replay
+  //    buffer armed and resolve pending clips into native files (no transcode):
+  //    wait the post-roll, SaveReplayBuffer, then mark the clip ready.
+  let processing = false;
+  async function processReplay(): Promise<void> {
+    if (processing || stopping || !manager.isConnected(obs.key)) return;
+    processing = true;
+    try {
+      await obs.ensureReplayBuffer();
+      const pending = await reporter.fetchPendingClips();
+      for (const clip of pending) {
+        await reporter.setClipStatus(clip.id, "extracting");
+        await new Promise((r) => setTimeout(r, (clip.post_roll_s ?? 5) * 1000));
+        const path = await obs.saveReplayBuffer();
+        if (path) await reporter.setClipStatus(clip.id, "ready", path);
+        else await reporter.setClipStatus(clip.id, "error", null);
+      }
+    } catch (err) {
+      console.error("[agent] replay processing error:", err);
+    } finally {
+      processing = false;
+    }
+  }
+
+  // 5) Heartbeat loop.
   await tick();
   const timer = setInterval(() => {
     if (!stopping) void tick();
   }, HEARTBEAT_INTERVAL_MS);
+  const replayTimer = setInterval(() => void processReplay(), 3000);
 
   async function shutdown(): Promise<void> {
     if (stopping) return;
     stopping = true;
     clearInterval(timer);
+    clearInterval(replayTimer);
     console.log("[agent] shutting down…");
     for (const d of registry.list()) await d.disconnect().catch(() => {});
     await reporter.markOffline(cfg.agentKey).catch(() => {});

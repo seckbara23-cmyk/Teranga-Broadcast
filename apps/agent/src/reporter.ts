@@ -73,6 +73,28 @@ export class SupabaseReporter {
     }
   }
 
+  // --- Replay clip pipeline -------------------------------------------------
+
+  async fetchPendingClips(): Promise<{ id: string; post_roll_s: number }[]> {
+    const { data } = await this.client
+      .from("replay_clips")
+      .select("id, post_roll_s")
+      .eq("organization_id", this.cfg.organizationId)
+      .eq("status", "pending")
+      .limit(5);
+    return (data ?? []) as { id: string; post_roll_s: number }[];
+  }
+
+  async setClipStatus(
+    id: string,
+    status: "extracting" | "ready" | "error",
+    clipPath?: string | null,
+  ): Promise<void> {
+    const patch: Record<string, unknown> = { status };
+    if (clipPath !== undefined) patch.clip_path = clipPath;
+    await this.client.from("replay_clips").update(patch).eq("id", id);
+  }
+
   /** Mark the agent offline (best-effort on shutdown). */
   async markOffline(agentKey: string): Promise<void> {
     await this.client

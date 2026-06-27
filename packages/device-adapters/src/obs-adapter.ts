@@ -62,6 +62,46 @@ export class OBSAdapter implements DeviceAdapter {
     this.obs = null;
   }
 
+  // --- Replay output (Phase 6) ---------------------------------------------
+  // The ONLY OBS control allowed this phase: replay buffer + loading a clip into
+  // a media source. No scene switching, no record/stream control.
+
+  async ensureReplayBuffer(): Promise<void> {
+    if (!this.obs) return;
+    try {
+      const st = await this.obs.call("GetReplayBufferStatus");
+      if (!st?.outputActive) await this.obs.call("StartReplayBuffer");
+    } catch {
+      /* replay buffer may be disabled in OBS settings */
+    }
+  }
+
+  /** Save the in-memory replay buffer to a native file; returns its path. */
+  async saveReplayBuffer(): Promise<string | null> {
+    if (!this.obs) return null;
+    try {
+      await this.obs.call("SaveReplayBuffer");
+      const last = await this.obs.call("GetLastReplayBufferReplay");
+      return last?.savedReplayPath ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  /** Load a clip file into an OBS media source (replay output, no scene switch). */
+  async loadClipIntoMediaSource(inputName: string, filePath: string): Promise<boolean> {
+    if (!this.obs) return false;
+    try {
+      await this.obs.call("SetInputSettings", {
+        inputName,
+        inputSettings: { local_file: filePath, is_local_file: true },
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   async heartbeat(): Promise<boolean> {
     if (!this.obs || !this.connected) return false;
     try {

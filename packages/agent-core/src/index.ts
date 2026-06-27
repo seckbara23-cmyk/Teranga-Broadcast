@@ -7,3 +7,4 @@ export * from "./protocol.js";
 export * from "./registry.js";
 export * from "./manager.js";
 export * from "./storage.js";
+export * from "./replay.js";
