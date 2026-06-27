@@ -169,3 +169,26 @@ To keep that path open, the architecture observes these rules from day one:
 - **Cost:** no bulk video egress to the cloud.
 - **Extensibility:** NDI/vMix/Blackmagic later become new capabilities of the
   Agent, not rewrites of the web app.
+
+## Future module: Teranga Tactics (architecture note)
+
+**Teranga Tactics** (tactical analysis — see
+[11-teranga-tactics](./11-teranga-tactics.md)) is a **future** module and is
+**not** part of the current build (Replay Engine + Auth/Tenant remain the
+priority). It is intentionally designed as a **composition of existing planes**,
+not a new silo:
+
+- **Control plane:** a `features/tactics` area and an analysis surface route in
+  `apps/web`; telestration renders as a canvas/SVG layer over a replay clip
+  (conceptually the same overlay pattern used for graphics).
+- **Media plane:** paused frames and clips come from the **Replay Engine** buffer;
+  telestration burn-in and tactical-clip export reuse the **FFmpeg export**
+  pipeline in the Agent; "send to broadcast" reuses the asset → OBS media-source
+  path.
+- **Coordination plane:** the analysis dashboard derives its stats from the
+  **match event spine** plus new tactical tagging; future tables
+  (`tactical_analyses`, `tactical_annotations`, `tactical_stats`) are
+  `organization_id`-scoped under the same RLS model.
+
+No new runtime is introduced — Teranga Tactics adds capabilities to the web app
+and the Agent rather than a fourth plane.

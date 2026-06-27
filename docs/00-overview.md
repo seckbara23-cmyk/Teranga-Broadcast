@@ -7,6 +7,17 @@ This `/docs` folder is the founding blueprint for Teranga Broadcast. It defines
 *what* we are building, *why*, and *how* before any production application code
 is written.
 
+> **📜 Constitutions (normative — read first):**
+> - **[VISION_2030](./VISION_2030.md)** — the *platform* constitution
+>   (principles). Teranga Broadcast is an **Enterprise Broadcast Technology
+>   Platform** (Broadcast OS), not a replay app.
+> - **[ENGINE_SPECIFICATIONS](./ENGINE_SPECIFICATIONS.md)** — the *engineering*
+>   constitution. Per-engine contracts (APIs, events, data/UI ownership) plus the
+>   communication, event-bus, timeline, lifecycle, and dependency rules all code
+>   must follow.
+>
+> Where a blueprint and a constitution disagree, the constitution wins.
+
 ## Document index
 
 | # | Document | Purpose |
@@ -21,6 +32,24 @@ is written.
 | 08 | [Database Model Draft](./08-database-model.md) | Supabase / Postgres schema draft |
 | 09 | [Development Roadmap](./09-roadmap.md) | Phased delivery plan |
 | 10 | [Risks & Technical Challenges](./10-risks.md) | Known hard problems and mitigations |
+| 11 | [Teranga Tactics (Future Module)](./11-teranga-tactics.md) | Planned tactical analysis module — **not yet scheduled** |
+
+## Platform modules
+
+Current foundation/priority modules and planned future modules:
+
+| Module | Status |
+|--------|--------|
+| Auth / Tenant foundation | **Current priority** |
+| Replay Engine | **Current priority** |
+| Graphics overlays & Scoreboards | Planned (Phase 1) |
+| Highlight Studio | Planned (Phase 2) |
+| Match Archive | Planned (Phase 2) |
+| Social clip export | Planned (Phase 2) |
+| AI event detection | Planned (Phase 3) |
+| Analytics | Planned (Phase 3) |
+| **Teranga Tactics** (tactical analysis) | **Future** — see [11](./11-teranga-tactics.md) |
+| vMix / NDI / Blackmagic support | Future (Phase 3–4) |
 
 ## Tech stack (agreed)
 

@@ -244,3 +244,8 @@ create table jobs (
 - `ai_detections` — AI event candidates pending operator confirmation.
 - `social_publications` — social export/publish tracking.
 - `archive_tags` — searchable archive taxonomy.
+- `tactical_analyses`, `tactical_annotations`, `tactical_stats` — **Teranga
+  Tactics** (future module; telestration shapes/labels + dashboard metrics).
+  Tactical clips reuse `assets` (e.g. a `tactics_clip` type). See
+  [11-teranga-tactics](./11-teranga-tactics.md). *(Not scheduled — Replay Engine
+  and Auth/Tenant remain the priority.)*

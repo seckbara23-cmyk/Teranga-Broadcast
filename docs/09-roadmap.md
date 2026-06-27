@@ -48,6 +48,12 @@ A phased plan from blueprint to a full broadcast platform. Each phase ends with 
 - **vMix integration** behind the existing `ObsClient` intent interface.
 - **Analytics v1:** possession/shots/scoreboard-derived stats, production
   metrics (time-to-replay, clips produced).
+- **Teranga Tactics (foundations):** begin the tactical analysis module —
+  telestration on paused replay frames (arrows/circles/lines/player tags) and a
+  first match analysis dashboard (possession, shots, pass accuracy…), reusing the
+  replay, event-spine, and export pipelines. See
+  [11-teranga-tactics](./11-teranga-tactics.md). *(Starts only after the Replay
+  Engine and Auth/Tenant foundation are solid.)*
 - **Exit:** an AI-suggested goal replay accepted by an operator on air;
   two-angle replay.
 
@@ -60,6 +66,10 @@ A phased plan from blueprint to a full broadcast platform. Each phase ends with 
 - Self-hosted Supabase / on-prem deployment option (connectivity-independent).
 - **Template/overlay marketplace** localized for African competitions.
 - Direct **social publishing** integrations (platform APIs).
+- **Teranga Tactics (full):** offside/defensive-line tools, slow-motion tactical
+  breakdowns, the full analysis dashboard (duels won, attacking zones, pressing
+  intensity, xG placeholder), tactical clip export, and **send-to-broadcast**.
+  See [11-teranga-tactics](./11-teranga-tactics.md).
 - **Exit:** a second broadcaster onboarded; productions scale from laptop to
   OB-van.
 
@@ -70,6 +80,9 @@ A phased plan from blueprint to a full broadcast platform. Each phase ends with 
   source pattern.
 - **AI and multi-camera later** — they ride on the event spine and timeline that
   Phases 1–2 establish; doing them first would be premature.
+- **Teranga Tactics after Replay + Analytics** — it composes the replay buffer,
+  event-spine stats, and export pipeline, so it can only follow them. It must not
+  displace the Replay Engine or the Auth/Tenant foundation (the current priority).
 - **Hardware I/O (SDI/NDI) last** — highest integration cost, needed only at
   broadcast scale.
 

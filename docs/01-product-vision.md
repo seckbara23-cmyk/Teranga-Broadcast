@@ -67,6 +67,10 @@ A modular, extensible broadcast OS:
 
 - **AI event detection** auto-marks goals, cards, and key plays.
 - **Multi-camera replay** with NDI/SDI ingest.
+- **Teranga Tactics** — a tactical analysis module (telestration on paused video
+  plus a match analysis dashboard) for journalists and analysts. See
+  [11-teranga-tactics](./11-teranga-tactics.md). *(Future module — not yet
+  scheduled; Replay Engine and Auth/Tenant remain the current priority.)*
 - **Cloud + on-prem hybrid** so productions scale from a single laptop to a full
   OB van.
 - **Marketplace of overlays/templates** localized for African leagues and

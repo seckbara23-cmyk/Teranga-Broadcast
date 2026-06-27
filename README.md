@@ -101,8 +101,16 @@ a self-hosted Supabase instance is a config change only.
 - **Phase 1 — MVP core loop**: replay engine, scoreboard/overlays, event log,
   clip export.
 - **Phase 2 — Hardening & digital**: resilience, Highlight Studio, Archive.
-- **Phase 3 — Intelligence & multi-source**: AI detection, multi-cam, NDI, vMix.
-- **Phase 4 — Scale & platform**: SDI/Blackmagic, on-prem packaging, marketplace.
+- **Phase 3 — Intelligence & multi-source**: AI detection, multi-cam, NDI, vMix,
+  analytics, and **Teranga Tactics** foundations (tactical analysis).
+- **Phase 4 — Scale & platform**: SDI/Blackmagic, on-prem packaging, marketplace,
+  full **Teranga Tactics**.
+
+> **Future module — Teranga Tactics:** a football tactical analysis module
+> (telestration on paused video + match analysis dashboard) for journalists and
+> analysts. Documented in [docs/11-teranga-tactics.md](./docs/11-teranga-tactics.md);
+> **not yet scheduled** — the Replay Engine and Auth/Tenant foundation remain the
+> current priority.
 
 See [Development Roadmap](./docs/09-roadmap.md) for detail.
 
