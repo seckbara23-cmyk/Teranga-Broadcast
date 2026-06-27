@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+out/
+.next/
+.turbo/
+*.tsbuildinfo
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/
+.supabase/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Media / replay buffer (never commit recordings or clips)
+# NOTE: *.ts is intentionally NOT ignored globally (it would catch TypeScript
+# source). MPEG transport-stream segments live only inside the ignored
+# buffer/recordings dirs below.
+*.mp4
+*.mkv
+*.mov
+*.flv
+buffer/
+recordings/
+exports/
+replay_tmp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+
+# Test / coverage
+coverage/
+.nyc_output/

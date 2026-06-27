@@ -1,0 +1,25 @@
+{
+  "name": "teranga-broadcast",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Enterprise sports broadcast platform for TV stations and production teams (RTS Senegal first).",
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "db:verify": "node scripts/db-verify.mjs"
+  },
+  "devDependencies": {
+    "pg": "^8.13.0",
+    "turbo": "^2.3.0",
+    "typescript": "^5.7.0"
+  }
+}

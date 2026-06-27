@@ -1,0 +1,28 @@
+{
+  "name": "@teranga/agent",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Teranga Agent — local edge service that owns OBS control, the replay buffer, and FFmpeg export.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "dev": "echo \"(placeholder) agent dev — tsx watch src/index.ts\"",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"(placeholder) lint @teranga/agent\"",
+    "test": "echo \"(placeholder) test @teranga/agent\"",
+    "clean": "rm -rf dist .turbo *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@teranga/core": "workspace:*",
+    "@teranga/obs": "workspace:*",
+    "@teranga/replay": "workspace:*",
+    "@teranga/types": "workspace:*",
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "typescript": "^5.7.0"
+  }
+}

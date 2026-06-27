@@ -1,0 +1,27 @@
+{
+  "name": "@teranga/core",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Domain logic, command/event contracts, zod schemas, and Supabase client helpers shared by web and agent.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./commands": "./src/commands.ts",
+    "./events": "./src/events.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"(placeholder) lint @teranga/core\"",
+    "test": "echo \"(placeholder) test @teranga/core\"",
+    "clean": "rm -rf dist .turbo *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@teranga/types": "workspace:*",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

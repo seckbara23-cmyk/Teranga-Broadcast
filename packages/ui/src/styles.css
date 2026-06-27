@@ -1,0 +1,13 @@
+/*
+ * @teranga/ui — shared styles PLACEHOLDER.
+ *
+ * Tailwind layer + CSS variables for the Teranga broadcast theme (dark,
+ * high-contrast, operator-first) will live here, imported by apps/web.
+ */
+
+:root {
+  /* Placeholder theme tokens — replaced with the real broadcast palette. */
+  --teranga-bg: #0a0a0b;
+  --teranga-fg: #fafafa;
+  --teranga-accent: #1f9d55; /* placeholder Teranga green */
+}

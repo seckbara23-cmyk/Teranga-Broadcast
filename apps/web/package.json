@@ -1,0 +1,32 @@
+{
+  "name": "@teranga/web",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Teranga Broadcast operator console + OBS overlay routes (Next.js 16 / React 19).",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf .next .turbo *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@teranga/core": "workspace:*",
+    "@teranga/obs": "workspace:*",
+    "@teranga/types": "workspace:*",
+    "@teranga/ui": "workspace:*",
+    "@supabase/supabase-js": "^2.45.0",
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}
