@@ -10,8 +10,9 @@ export function MatchTabs({ matchId }: { matchId: string }) {
     { href: base, label: "Console", exact: true },
     { href: `${base}/timeline`, label: "Chronologie", exact: false },
     { href: `${base}/replay`, label: "Replay", exact: false },
+    { href: `${base}/graphics`, label: "Graphismes", exact: false },
   ];
-  const disabled = ["Graphismes", "Tactique"];
+  const disabled = ["Tactique"];
 
   return (
     <div className="tabs">

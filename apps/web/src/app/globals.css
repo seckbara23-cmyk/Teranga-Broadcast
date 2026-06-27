@@ -1002,3 +1002,274 @@ kbd,
 .pl-row__name {
   font-weight: 600;
 }
+
+/* ==========================================================================
+   GRAPHICS ENGINE (Phase 4) — broadcast overlay + control panel
+   ========================================================================== */
+
+/* Control panel layout */
+.graphics {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.1rem;
+  align-items: start;
+}
+.graphics__main,
+.graphics__side {
+  display: grid;
+  gap: 1.1rem;
+}
+@media (max-width: 1100px) {
+  .graphics {
+    grid-template-columns: 1fr;
+  }
+}
+.overlay-url {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.6rem;
+  word-break: break-all;
+}
+.ev-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+}
+.preset-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.preset {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.preset__load {
+  background: var(--bg-elevated);
+  color: var(--fg);
+  border: none;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.preset__load:hover {
+  background: var(--bg-input);
+}
+.preset__del {
+  background: transparent;
+  color: var(--fg-dim);
+  border: none;
+  border-left: 1px solid var(--border-strong);
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+}
+.preset__del:hover {
+  color: var(--live);
+}
+
+/* Preview frame */
+.ov-preview__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(90deg, #0c2417 0 8%, #0e2a1b 8% 16%);
+}
+
+/* --- Public overlay surface (transparent) ------------------------------- */
+.overlay-viewport {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: transparent;
+}
+.overlay-frame {
+  position: relative;
+  width: min(100vw, calc(100vh * 16 / 9));
+  height: min(100vh, calc(100vw * 9 / 16));
+}
+
+/* The stage establishes container-query units (cqh/cqw) so every graphic scales
+   identically in the full overlay and in the small preview. */
+.ov-stage {
+  position: absolute;
+  inset: 0;
+  container-type: size;
+  overflow: hidden;
+  font-family: var(--sans);
+  color: #fff;
+}
+
+/* Scorebug — top-left, safe-area aware */
+.ov-sb {
+  position: absolute;
+  top: 5cqh;
+  left: 4cqw;
+  background: linear-gradient(180deg, rgba(8, 12, 18, 0.92), rgba(8, 12, 18, 0.82));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid var(--accent);
+  border-radius: 1.4cqh;
+  padding: 1.6cqh 2cqh;
+  box-shadow: 0 1cqh 3cqh rgba(0, 0, 0, 0.45);
+  animation: ov-fade 0.4s ease both;
+}
+.ov-sb__main {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqh;
+}
+.ov-sb__flag {
+  font-size: 5cqh;
+  line-height: 1;
+}
+.ov-sb__abbr {
+  font-size: 4cqh;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.ov-sb__score {
+  font-family: var(--mono);
+  font-size: 6cqh;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  min-width: 4cqh;
+  text-align: center;
+}
+.ov-sb__sep {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 3.5cqh;
+}
+.ov-sb__clockbar {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqh;
+  margin-top: 1cqh;
+  padding-top: 1cqh;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.ov-sb__time {
+  font-size: 4cqh;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.ov-sb__dot {
+  width: 1.2cqh;
+  height: 1.2cqh;
+  border-radius: 50%;
+  background: var(--live);
+  box-shadow: 0 0 0 0.6cqh rgba(239, 68, 68, 0.25);
+}
+.ov-sb__status {
+  font-size: 2.6cqh;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+.ov-sb__pens {
+  margin-top: 0.8cqh;
+  font-size: 2.4cqh;
+  font-weight: 700;
+  color: #f5c518;
+}
+.ov-sb__comp {
+  margin-top: 0.6cqh;
+  font-size: 2.2cqh;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Lower third — bottom-left */
+.ov-lt {
+  position: absolute;
+  left: 4cqw;
+  bottom: 9cqh;
+  display: flex;
+  align-items: stretch;
+  background: linear-gradient(90deg, rgba(8, 12, 18, 0.94), rgba(8, 12, 18, 0.82));
+  border-radius: 1.2cqh;
+  overflow: hidden;
+  box-shadow: 0 1cqh 3cqh rgba(0, 0, 0, 0.5);
+  animation: ov-slide 0.45s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  max-width: 60cqw;
+}
+.ov-lt__accent {
+  width: 1.2cqh;
+  background: var(--accent);
+}
+.ov-lt__accent--away {
+  background: var(--info);
+}
+.ov-lt__body {
+  padding: 2cqh 2.6cqh;
+}
+.ov-lt__name {
+  font-size: 6cqh;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.ov-lt__role {
+  margin-top: 1cqh;
+  font-size: 3cqh;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Event graphic — centre */
+.ov-ev {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 4cqh 7cqh;
+  background: linear-gradient(180deg, rgba(8, 12, 18, 0.92), rgba(8, 12, 18, 0.78));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 0.8cqh solid var(--ev-accent, var(--accent));
+  border-radius: 2cqh;
+  box-shadow: 0 2cqh 6cqh rgba(0, 0, 0, 0.55);
+  animation: ov-pop 0.5s cubic-bezier(0.18, 1.2, 0.3, 1) both;
+}
+.ov-ev__title {
+  font-size: 11cqh;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: var(--ev-accent, var(--accent));
+  text-shadow: 0 0.4cqh 1.5cqh rgba(0, 0, 0, 0.5);
+}
+.ov-ev__label {
+  margin-top: 1.6cqh;
+  font-size: 4cqh;
+  font-weight: 600;
+  color: #fff;
+}
+
+@keyframes ov-fade {
+  from { opacity: 0; transform: translateY(-1.5cqh); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ov-slide {
+  from { opacity: 0; transform: translateX(-6cqw); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes ov-pop {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}

@@ -1,8 +1,9 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-/** Paths reachable without a session. Everything else requires auth. */
-const PUBLIC_PATHS = ["/login", "/auth"];
+/** Paths reachable without a session. Everything else requires auth.
+ *  /overlays is the public OBS Browser Source surface (token-gated in-route). */
+const PUBLIC_PATHS = ["/login", "/auth", "/overlays"];
 
 function isPublic(path: string): boolean {
   return PUBLIC_PATHS.some((p) => path === p || path.startsWith(p + "/"));
