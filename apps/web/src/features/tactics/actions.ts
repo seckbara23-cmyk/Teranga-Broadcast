@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { resolveTenant } from "@/features/auth/tenant";
+import { registerMediaAsset, type MediaAssetType } from "@/features/media/service";
 import {
   DEFAULT_COLORS,
   FORMATIONS,
@@ -245,13 +246,38 @@ export async function recordExport(
   format: "png" | "pdf" | "svg" | "replay_package" | "presentation_package",
   metadata: Record<string, unknown> = {},
 ) {
-  const { supabase, orgId, userId } = await ctx();
-  await supabase.from("tactical_exports").insert({
-    organization_id: orgId,
-    session_id: sessionId,
-    format,
-    status: "ready",
-    metadata,
-    created_by: userId,
+  const { supabase, orgId, operator, userId } = await ctx();
+  const { data: exp } = await supabase
+    .from("tactical_exports")
+    .insert({
+      organization_id: orgId,
+      session_id: sessionId,
+      format,
+      status: "ready",
+      metadata,
+      created_by: userId,
+    })
+    .select("id")
+    .single();
+
+  // Register the export in the Media Engine (cross-engine via the Media API).
+  const { data: session } = await supabase
+    .from("tactical_sessions")
+    .select("match_id, title")
+    .eq("id", sessionId)
+    .maybeSingle();
+  const typeMap: Record<string, MediaAssetType> = {
+    svg: "tactical_svg",
+    png: "tactical_png",
+    pdf: "tactical_pdf",
+  };
+  await registerMediaAsset(supabase, orgId, {
+    matchId: session?.match_id ?? null,
+    title: `${session?.title ?? "Analyse"} (${format})`,
+    assetType: typeMap[format] ?? "document",
+    sourceEngine: "tactics",
+    sourceId: exp?.id ?? null,
+    operatorLabel: operator,
+    metadata: { tactical_session_id: sessionId, format },
   });
 }

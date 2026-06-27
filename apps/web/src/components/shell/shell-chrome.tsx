@@ -56,6 +56,12 @@ export function ShellChrome({ matches }: { matches: MatchRef[] }) {
         run: () => router.push("/matches?new=1"),
       },
       {
+        id: "nav-media",
+        label: "Média",
+        hint: "g d",
+        run: () => router.push("/media"),
+      },
+      {
         id: "nav-health",
         label: "Santé système",
         hint: "g s",
@@ -120,6 +126,7 @@ export function ShellChrome({ matches }: { matches: MatchRef[] }) {
         if (e.key.toLowerCase() === "m") router.push("/matches");
         if (e.key.toLowerCase() === "h") router.push("/");
         if (e.key.toLowerCase() === "s") router.push("/health");
+        if (e.key.toLowerCase() === "d") router.push("/media");
         chordRef.current = null;
         return;
       }
