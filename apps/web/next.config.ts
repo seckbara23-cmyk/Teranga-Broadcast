@@ -7,11 +7,10 @@ import type { NextConfig } from "next";
  * their TypeScript sources without a separate build step.
  */
 const nextConfig: NextConfig = {
-  // Static HTML export (apps/web/out). Lets Vercel serve the app as static files
-  // while the project Root Directory stays at the monorepo root. The foundation
-  // page is fully static; revisit when SSR/API routes land (set Root Directory
-  // to apps/web and drop `output: "export"`).
-  output: "export",
+  // NOTE: this app now uses SSR + middleware for Supabase auth, so it can no
+  // longer be a static export (`output: "export"` was removed in M1).
+  // Deploying on Vercel therefore requires the project's Root Directory to be
+  // set to `apps/web` (and the repo-root static-export vercel.json removed).
   reactStrictMode: true,
   transpilePackages: ["@teranga/ui", "@teranga/core", "@teranga/obs", "@teranga/types"],
 };
