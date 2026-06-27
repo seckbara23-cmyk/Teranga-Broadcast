@@ -20,13 +20,6 @@ export function EventComposer({ matchId }: { matchId: string }) {
       <form action={logEvent} className="row" style={{ gap: "0.5rem" }}>
         <input type="hidden" name="match_id" value={matchId} />
         <input type="hidden" name="type" value="note" />
-        <input
-          name="match_clock_min"
-          className="input"
-          placeholder="min"
-          inputMode="numeric"
-          style={{ width: "4.5rem", flex: "0 0 auto" }}
-        />
         <input name="label" className="input" placeholder="Ajouter une note…" />
         <button type="submit" className="btn">
           Ajouter

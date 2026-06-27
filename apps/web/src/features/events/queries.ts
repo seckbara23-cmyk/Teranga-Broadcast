@@ -6,6 +6,8 @@ export type MatchEventType =
   | "card"
   | "substitution"
   | "penalty"
+  | "var_review"
+  | "injury"
   | "period_start"
   | "period_end"
   | "note"
@@ -18,6 +20,7 @@ export type MatchEventRow = {
   label: string | null;
   timeline_ms: number | null;
   match_clock_ms: number | null;
+  payload: { clock_label?: string; kind?: string; color?: string } | null;
   created_at: string;
 };
 
@@ -25,7 +28,9 @@ export async function listEvents(matchId: string): Promise<MatchEventRow[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("match_events")
-    .select("id, type, team, label, timeline_ms, match_clock_ms, created_at")
+    .select(
+      "id, type, team, label, timeline_ms, match_clock_ms, payload, created_at",
+    )
     .eq("match_id", matchId)
     .order("created_at", { ascending: false })
     .limit(200);

@@ -10,16 +10,32 @@ const TYPE_META: Record<MatchEventType, { label: string; color: string }> = {
   card: { label: "Carton", color: "var(--warn)" },
   substitution: { label: "Changement", color: "var(--fg-muted)" },
   penalty: { label: "Penalty", color: "var(--live)" },
+  var_review: { label: "VAR", color: "var(--info)" },
+  injury: { label: "Blessure", color: "var(--warn)" },
   period_start: { label: "Début période", color: "var(--info)" },
   period_end: { label: "Fin période", color: "var(--info)" },
   note: { label: "Note", color: "var(--fg-muted)" },
   custom: { label: "Événement", color: "var(--fg-muted)" },
 };
 
-function clock(ms: number | null): string {
-  if (ms == null) return "—";
-  const m = Math.floor(ms / 60000);
-  return `${m}'`;
+function timeLabel(e: MatchEventRow): string {
+  if (e.payload?.clock_label) return e.payload.clock_label;
+  if (e.match_clock_ms == null) return "—";
+  const totalSec = Math.floor(e.match_clock_ms / 1000);
+  return `${Math.floor(totalSec / 60)}:${String(totalSec % 60).padStart(2, "0")}`;
+}
+
+function eventLabel(e: MatchEventRow, base: string): string {
+  if (e.type === "card") {
+    if (e.payload?.color === "red") return "Carton rouge";
+    if (e.payload?.color === "yellow") return "Carton jaune";
+  }
+  if (e.type === "goal") {
+    if (e.payload?.kind === "own") return "But c.s.c.";
+    if (e.payload?.kind === "penalty") return "But (pen.)";
+    if (e.payload?.kind === "shootout") return "Tir au but";
+  }
+  return base;
 }
 
 function wall(iso: string): string {
@@ -89,9 +105,9 @@ export function EventTimeline({
           >
             <span
               className="mono"
-              style={{ width: "3rem", color: "var(--fg-dim)", textAlign: "right" }}
+              style={{ width: "3.5rem", color: "var(--fg-dim)", textAlign: "right" }}
             >
-              {clock(e.match_clock_ms)}
+              {timeLabel(e)}
             </span>
             <span
               style={{
@@ -103,7 +119,7 @@ export function EventTimeline({
               }}
             />
             <span style={{ fontWeight: 600, minWidth: "7.5rem" }}>
-              {meta.label}
+              {eventLabel(e, meta.label)}
               {e.team ? (
                 <span className="dim" style={{ fontWeight: 400 }}>
                   {" "}
