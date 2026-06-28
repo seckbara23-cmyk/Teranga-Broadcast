@@ -6,6 +6,7 @@ import { listMatchRefs } from "@/features/matches/queries";
 import { Sidebar } from "@/components/shell/sidebar";
 import { TopBar } from "@/components/shell/top-bar";
 import { ShellChrome } from "@/components/shell/shell-chrome";
+import { AiPanel } from "@/components/ai/ai-panel";
 
 // Authenticated, per-request rendering (reads cookies / Supabase session).
 export const dynamic = "force-dynamic";
@@ -48,6 +49,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       <main className="shell__main">{children}</main>
 
       <ShellChrome matches={matches} />
+      <AiPanel />
     </div>
   );
 }

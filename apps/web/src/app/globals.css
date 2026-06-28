@@ -1546,6 +1546,124 @@ kbd,
 }
 
 /* ==========================================================================
+   AI COPILOT (Phase 10)
+   ========================================================================== */
+.ai-ws {
+  display: grid;
+  gap: 0.8rem;
+}
+.ai-chat {
+  display: grid;
+  gap: 0.6rem;
+  max-height: 48vh;
+  overflow-y: auto;
+}
+.ai-msg {
+  display: grid;
+  gap: 0.2rem;
+}
+.ai-msg__role {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.ai-msg__content {
+  white-space: pre-wrap;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.ai-msg--user .ai-msg__content {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-elevated));
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+.ai-rec,
+.ai-task {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+.ai-task {
+  display: block;
+}
+.ai-result {
+  white-space: pre-wrap;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--fg-muted);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem;
+  overflow: auto;
+  max-height: 60vh;
+  margin: 0.5rem 0 0;
+}
+
+/* Persistent copilot panel */
+.ai-fab {
+  position: fixed;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  z-index: 40;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, var(--bg-elevated));
+  color: var(--fg);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+.ai-fab:hover {
+  background: color-mix(in srgb, var(--accent) 28%, var(--bg-elevated));
+}
+.ai-panel {
+  position: fixed;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  z-index: 40;
+  width: min(360px, 92vw);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  display: grid;
+}
+.ai-panel__head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.ai-panel__title {
+  font-weight: 700;
+  color: var(--accent);
+}
+.ai-panel__body {
+  padding: 0.8rem;
+  min-height: 4rem;
+}
+.ai-panel__foot {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0 0.8rem 0.6rem;
+}
+.ai-panel__link {
+  padding: 0 0.8rem 0.7rem;
+}
+
+/* ==========================================================================
    GRAPHICS ENGINE (Phase 4) — broadcast overlay + control panel
    ========================================================================== */
 

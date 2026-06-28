@@ -56,6 +56,12 @@ export function ShellChrome({ matches }: { matches: MatchRef[] }) {
         run: () => router.push("/matches?new=1"),
       },
       {
+        id: "nav-ai",
+        label: "Copilote IA",
+        hint: "g i",
+        run: () => router.push("/ai"),
+      },
+      {
         id: "nav-automation",
         label: "Automatisation",
         hint: "g a",
@@ -134,6 +140,7 @@ export function ShellChrome({ matches }: { matches: MatchRef[] }) {
         if (e.key.toLowerCase() === "s") router.push("/health");
         if (e.key.toLowerCase() === "d") router.push("/media");
         if (e.key.toLowerCase() === "a") router.push("/automation");
+        if (e.key.toLowerCase() === "i") router.push("/ai");
         chordRef.current = null;
         return;
       }
