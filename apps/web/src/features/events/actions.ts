@@ -80,6 +80,17 @@ export async function logEvent(formData: FormData) {
 
   if (error) throw new Error(`Failed to log event: ${error.message}`);
 
+  // Notify the Automation Engine (its API; we never touch its tables). Failures
+  // here must not break event logging.
+  try {
+    const { fireMatchEventTriggers } = await import(
+      "@/features/automation/trigger-bus"
+    );
+    await fireMatchEventTriggers(matchId, type);
+  } catch {
+    /* automation is best-effort on the event path */
+  }
+
   revalidatePath(`/matches/${matchId}/timeline`);
   revalidatePath(`/matches/${matchId}`);
 }

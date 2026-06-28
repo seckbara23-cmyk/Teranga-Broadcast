@@ -13,14 +13,13 @@ type Item = {
 
 const PRIMARY: Item[] = [
   { href: "/matches", label: "Centre des matchs", kbd: "g m" },
+  { href: "/automation", label: "Automatisation", kbd: "g a" },
   { href: "/media", label: "Média", kbd: "g d" },
   { href: "/health", label: "Santé système", kbd: "g s" },
 ];
 
 // Per-match engines (Replay/Graphics/Tactics) are reached inside a match.
-// Automation and AI are not built yet.
 const ENGINES: Item[] = [
-  { href: "#", label: "Automatisation", disabled: true, hint: "à venir" },
   { href: "#", label: "IA", disabled: true, hint: "à venir" },
 ];
 

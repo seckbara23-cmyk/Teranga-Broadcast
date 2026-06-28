@@ -1451,6 +1451,101 @@ kbd,
 }
 
 /* ==========================================================================
+   AUTOMATION ENGINE (Phase 9) — workflows, flow editor, executions
+   ========================================================================== */
+.auto-cols {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 1.1rem;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .auto-cols {
+    grid-template-columns: 1fr;
+  }
+}
+.wf-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.4rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.wf-row:hover {
+  background: var(--bg-elevated);
+}
+.wf-row--sel {
+  background: var(--bg-elevated);
+  border-color: var(--border-strong);
+}
+.wf-row__name {
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+/* Visual flow editor */
+.wf-editor {
+  display: grid;
+  gap: 0.3rem;
+}
+.flow {
+  display: grid;
+  justify-items: stretch;
+  gap: 0;
+  margin-top: 0.3rem;
+}
+.flow-arrow {
+  text-align: center;
+  color: var(--fg-dim);
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+.flow-node {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+}
+.flow-node--trigger {
+  border-left: 3px solid var(--info);
+}
+.flow-node--action {
+  border-left: 3px solid var(--accent);
+}
+.flow-node--delay {
+  border-left: 3px solid var(--warn);
+}
+.flow-node--cond {
+  border-left: 3px solid #a855f7;
+}
+.flow-node--end {
+  border-left: 3px solid var(--fg-dim);
+  opacity: 0.8;
+}
+.flow-node__kind {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  min-width: 5.5rem;
+}
+.flow-node__label {
+  font-weight: 600;
+  font-size: 0.88rem;
+  flex: 1;
+}
+.flow-node__ops {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* ==========================================================================
    GRAPHICS ENGINE (Phase 4) — broadcast overlay + control panel
    ========================================================================== */
 
